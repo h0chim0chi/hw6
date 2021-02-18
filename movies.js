@@ -12,7 +12,7 @@
 // complete image URL
 
 window.addEventListener('DOMContentLoaded', async function(event) {
-  let db = firebase.firestore()
+  let datastore = firebase.firestore()
   
     let response = await fetch (`https://api.themoviedb.org/3/movie/now_playing?api_key=ad954a96a4790dd1aa181b4d7fd71bbb&language=en-US`) 
     let json = await response.json()
@@ -30,8 +30,8 @@ document.querySelector('.movies').insertAdjacentHTML('beforeend',`
     </div>
       `)
   
-        let docRef = await db.collection('watched').doc(`${MovieName}`).get()
-        let movie_select = docRef.data()
+        let reference = await datastore.collection('watched').doc(`${MovieName}`).get()
+        let movie_select = reference.data()
       
         if(movie_select){
           let watchedmovie = document.querySelector(`.movie-${MovieName}`)
@@ -45,7 +45,7 @@ document.querySelector('.movies').insertAdjacentHTML('beforeend',`
           
           let watchedmovie = document.querySelector(`.movie-${MovieName}`)
           watchedmovie.classList.add('opacity-20')
-          await db.collection(`watched`).doc(`${MovieName}`).set({})
+          await datastore.collection(`watched`).doc(`${MovieName}`).set({})
         
         })
       }
