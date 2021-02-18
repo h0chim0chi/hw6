@@ -14,7 +14,7 @@
 window.addEventListener('DOMContentLoaded', async function(event) {
   let db = firebase.firestore()
   
-    let response = await fetch (`https://api.themoviedb.org/3/movie/now_playing?api_key=d071155b9ef8b1a6d5c5c8e9fa7ad957&language=en-US`) 
+    let response = await fetch (`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US`) 
     let json = await response.json()
     let Movies = json.results 
     console.log(Movies)
