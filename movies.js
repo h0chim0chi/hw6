@@ -44,6 +44,8 @@ window.addEventListener('DOMContentLoaded', async function(event) {
           movieclicked.classList.add('opacity-20')
       }  
 
+  
+  //create watched button
   let watchedbutton = document.querySelector(`.movie-${movieId}`)
   console.log(watchedbutton)
     
