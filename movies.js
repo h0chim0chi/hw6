@@ -16,7 +16,7 @@ window.addEventListener('DOMContentLoaded', async function(event) {
     let response = await fetch (`https://api.themoviedb.org/3/movie/now_playing?api_key=ad954a96a4790dd1aa181b4d7fd71bbb&language=en-US`) 
     let json = await response.json()
     let movies = json.results 
-    console.log(Movies)
+    console.log(movies)
   
     for (let i=0; i<movies.length; i++) {
       let movie = movies[i]
