@@ -5,7 +5,7 @@
 // your new key right away.
 
 // For this exercise, we'll be using the "now playing" API endpoint
-// https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US
+// https://api.themoviedb.org/3/movie/now_playing?api_key=ad954a96a4790dd1aa181b4d7fd71bbb&language=en-US
 
 // Note: image data returned by the API will only give you the filename;
 // prepend with `https://image.tmdb.org/t/p/w500/` to get the 
@@ -28,7 +28,7 @@ window.addEventListener('DOMContentLoaded', async function(event) {
       }
   
 document.querySelector('.movies').insertAdjacentHTML('beforeend',` 
-  <div class="w-1/5 p-4 movie-${movies.id} ${opacityfeature}">
+  <div class="w-1/5 p-4 movie-${movies.id} opacity-20">
   <img src="https://image.tmdb.org/t/p/w500/${movie.poster_path}" class="w-full">
   <a href="#" class="watched-button block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded">I've watched this!</a>
     </div>
