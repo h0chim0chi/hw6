@@ -12,32 +12,50 @@
 // complete image URL
 
 window.addEventListener('DOMContentLoaded', async function(event) {
-    let datastore = firebase.firestore()
-    let response = await fetch (`https://api.themoviedb.org/3/movie/now_playing?api_key=ad954a96a4790dd1aa181b4d7fd71bbb&language=en-US`) 
-    let json = await response.json()
-    let movielist = json.results 
-    console.log(movielist)
+  event.preventDefault()
+  let response = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=ad954a96a4790dd1aa181b4d7fd71bbb&language=en-US`)
+  console.log(response)
+
+  let json = await response.json()
+  let movielist = json.results
+  console.log(movielist)
   
-    for (let i=0; i<movielist.length; i++) {
-      let movie = movielist[i]
-      let reference = await datastore.collection('watched').doc(`${movie.id}`).get()
-      let watchedmovie = reference.data()
-  
-document.querySelector('.movies').insertAdjacentHTML('beforeend',` 
-  <div class="w-1/5 p-4 movie-${movie.id} opacity-20">
-  <img src="https://image.tmdb.org/t/p/w500/${movie.poster_path}" class="w-full">
-  <a href="#" class="watched-button block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded">I've watched this!</a>
-    </div>
+  let ds = firebase.firestore()
+  let watchedlist = await ds.collection('watched').get()
+  let watchedmovies = watchedlist.docs
+
+    for (let i=0; i<movies.length; i++) {
+      let movie = movies[i]
+      let movieId = movie.id
+      let dsMovie = await ds.collection('watched').doc(`${movieId}`).get()
+      let dsData = dsMovie.data()
+      console.log(dsData)
+      let moviePoster = movie.poster_path
+      let movieDomElement = document.querySelector(`.movies`)
+      movieDomElement.insertAdjacentHTML(`beforeend`, `
+      <div class="movie-${movieId} w-1/5 p-4">
+        <img src="https://image.tmdb.org/t/p/w500${moviePoster}" class="w-full">
+        <a href="#" class="watched-button block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded">Watched</a>
+      </div>
       `)
 
-document.querySelector(`.movie-${movie.id}`).addEventListener('click', async function(event) {
-  event.preventDefault()
-  let watchedindicator = document.querySelector(`.movie-${movie.id}`)
-  watchedindicator.classList.add('opacity-20')
-  await datastore.collection('watched').doc(`${movie.id}`).set({})
-      }) 
-    }
-  })
+      if(dsData){
+          let movieclicked = document.querySelector(`.movie-${movieId}`)
+          movieclicked.classList.add('opacity-20')
+      }  
+
+  let watchedbutton = document.querySelector(`.movie-${movieId}`)
+  console.log(watchedbutton)
+    
+  watchedbutton.addEventListener(`click`, async function(event){
+      event.preventDefault()
+      let movieclicked = document.querySelector(`.movie-${movieId}`)
+      movieclicked.classList.add('opacity-20')
+      await ds.collection(`watched`).doc(`${movieId}`).set({})
+    })
+
+
+
   
  //       let reference = await datastore.collection('watched').doc(`${movie}`).get()
  //       let movie_select = reference.data()
