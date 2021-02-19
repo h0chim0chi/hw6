@@ -12,40 +12,39 @@
 // complete image URL
 
 window.addEventListener('DOMContentLoaded', async function(event) {
-  let datastore = firebase.firestore()
-  
+    let datastore = firebase.firestore()
     let response = await fetch (`https://api.themoviedb.org/3/movie/now_playing?api_key=ad954a96a4790dd1aa181b4d7fd71bbb&language=en-US`) 
     let json = await response.json()
-    let Movies = json.results 
+    let movies = json.results 
     console.log(Movies)
   
     for (let i=0; i<movies.length; i++) {
-      let MovieName = Movies[i].id
+      let movie = movies[i].id
       let poster = movies[i].poster_path
   
 document.querySelector('.movies').insertAdjacentHTML('beforeend',` 
-  <div class="w-1/5 p-4 movie-${MovieName}">
-  <img src="https://image.tmdb.org/t/p/w500/${poster}" class="w-full">
+  <div class="w-1/5 p-4 movie-${movies.id}">
+  <img src="https://image.tmdb.org/t/p/w500/${movie.poster_path}" class="w-full">
   <a href="#" class="watched-button block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded">I've watched this!</a>
     </div>
       `)
   
-        let reference = await datastore.collection('watched').doc(`${MovieName}`).get()
+        let reference = await datastore.collection('watched').doc(`${movie}`).get()
         let movie_select = reference.data()
       
         if(movie_select){
-          let watchedmovie = document.querySelector(`.movie-${MovieName}`)
+          let watchedmovie = document.querySelector(`.movie-${movie}`)
           watchedmovie.classList.add('opacity-20')
       }
-          let watchedindicator = document.querySelector(`.movie-${MovieName}`)
+          let watchedindicator = document.querySelector(`.movie-${movie}`)
           console.log(watchedindicator)
           
           watchedindicator.addEventListener(`click`, async function(event){
           event.preventDefault()
           
-          let watchedmovie = document.querySelector(`.movie-${MovieName}`)
+          let watchedmovie = document.querySelector(`.movie-${movie}`)
           watchedmovie.classList.add('opacity-20')
-          await datastore.collection(`watched`).doc(`${MovieName}`).set({})
+          await datastore.collection(`watched`).doc(`${movie}`).set({})
         
         })
       }
