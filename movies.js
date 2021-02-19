@@ -15,21 +15,21 @@ window.addEventListener('DOMContentLoaded', async function(event) {
     let datastore = firebase.firestore()
     let response = await fetch (`https://api.themoviedb.org/3/movie/now_playing?api_key=ad954a96a4790dd1aa181b4d7fd71bbb&language=en-US`) 
     let json = await response.json()
-    let movies = json.results 
-    console.log(movies)
+    let movielist = json.results 
+    console.log(movielist)
   
-    for (let i=0; i<movies.length; i++) {
-      let movie = movies[i]
-      let reference = await datastore.collection('watched').doc('${movie.id}').get()
+    for (let i=0; i<movielist.length; i++) {
+      let movie = movielist[i]
+      let reference = await datastore.collection('watched').doc(`${movie.id}`).get()
       let watchedmovie = reference.data()
-      let poster = movies[i].poster_path
+      let opacityfeature = ''
       if (watchedmovie) {
         opacityfeature = 'opacity-20'
       }
   
 document.querySelector('.movies').insertAdjacentHTML('beforeend',` 
-  <div class="w-1/5 p-4 movie-${movies.id} opacity-20">
-  <img src="https://image.tmdb.org/t/p/w500/${poster}" class="w-full">
+  <div class="w-1/5 p-4 movie-${movie.id} ${opacityfeature}">
+  <img src="https://image.tmdb.org/t/p/w500/${movie.poster_path}" class="w-full">
   <a href="#" class="watched-button block text-center text-white bg-green-500 mt-4 px-4 py-2 rounded">I've watched this!</a>
     </div>
       `)
