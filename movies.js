@@ -13,7 +13,8 @@
 
 window.addEventListener('DOMContentLoaded', async function(event) {
   event.preventDefault()
-  let response = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=ad954a96a4790dd1aa181b4d7fd71bbb&language=en-US`)
+  let apiKey = 'ad954a96a4790dd1aa181b4d7fd71bbb'
+  let response = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US`)
   console.log(response)
 
   let json = await response.json()
@@ -44,7 +45,6 @@ window.addEventListener('DOMContentLoaded', async function(event) {
           movieclicked.classList.add('opacity-20')
       }  
 
-  
   //create watched button
   let watchedbutton = document.querySelector(`.movie-${movieId}`)
   console.log(watchedbutton)
