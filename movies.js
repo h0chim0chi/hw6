@@ -12,6 +12,7 @@
 // complete image URL
 
 window.addEventListener('DOMContentLoaded', async function(event) {
+
   event.preventDefault()
   let apiKey = 'ad954a96a4790dd1aa181b4d7fd71bbb'
   let response = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=en-US`)
@@ -25,14 +26,15 @@ window.addEventListener('DOMContentLoaded', async function(event) {
   let watchedlist = await ds.collection('watched').get()
   let watchedmovies = watchedlist.docs
 
-    for (let i=0; i<movies.length; i++) {
-      let movie = movies[i]
+    for (let i=0; i<movielist.length; i++) {
+      let movie = movielist[i]
       let movieId = movie.id
       let dsMovie = await ds.collection('watched').doc(`${movieId}`).get()
       let dsData = dsMovie.data()
       console.log(dsData)
       let moviePoster = movie.poster_path
       let movieDomElement = document.querySelector(`.movies`)
+
       movieDomElement.insertAdjacentHTML(`beforeend`, `
       <div class="movie-${movieId} w-1/5 p-4">
         <img src="https://image.tmdb.org/t/p/w500${moviePoster}" class="w-full">
@@ -55,28 +57,5 @@ window.addEventListener('DOMContentLoaded', async function(event) {
       movieclicked.classList.add('opacity-20')
       await ds.collection(`watched`).doc(`${movieId}`).set({})
     })
-
-
-
-  
- //       let reference = await datastore.collection('watched').doc(`${movie}`).get()
- //       let movie_select = reference.data()
-      
- //       if(movie_select){
- //         let watchedmovie = document.querySelector(`.movie-${movie}`)
- //         watchedmovie.classList.add('opacity-20')
- //     }
- //         let watchedindicator = document.querySelector(`.movie-${movie}`)
- //         console.log(watchedindicator)
-          
- //         watchedindicator.addEventListener(`click`, async function(event){
-  //        event.preventDefault()
-          
-  //        let watchedmovie = document.querySelector(`.movie-${movie}`)
-   //       watchedmovie.classList.add('opacity-20')
-    //      await datastore.collection(`watched`).doc(`${movie}`).set({})
-        
-  //      })
-    //  }
-    
-  // })
+  }
+})
