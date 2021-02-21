@@ -65,7 +65,7 @@ window.addEventListener('DOMContentLoaded', async function(event) {
  //       if(movie_select){
  //         let watchedmovie = document.querySelector(`.movie-${movie}`)
  //         watchedmovie.classList.add('opacity-20')
-      }
+ //     }
  //         let watchedindicator = document.querySelector(`.movie-${movie}`)
  //         console.log(watchedindicator)
           
